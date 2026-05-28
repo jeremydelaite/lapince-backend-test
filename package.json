@@ -32,6 +32,7 @@
 		"db:seed": "prisma db seed",
 		"db:reset": "prisma migrate reset",
 		"db:generate": "prisma generate"
+		"start": "tsx src/app.ts",
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.15",
