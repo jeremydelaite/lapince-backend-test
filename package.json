@@ -25,7 +25,7 @@
 		"test:unit": "vitest run **/*.unit.test.ts",
 		"test:integration": "vitest run **/*.integration.test.ts",
 		"check": "biome check --write ./src",
-		"prepare": "husky",
+		"prepare": "husky || true",
 		"docker:up": "docker compose -f docker-compose-dev.yml up",
 		"docker:down": "docker compose -f docker-compose-dev.yml down",
 		"db:migrate": "docker exec lapince-api npx prisma migrate dev",
