@@ -8,7 +8,7 @@ export async function register(req: Request, res: Response) {
 		const { user, token } = await registerUser(data);
 		res.status(201).json({ user, token });
 	} catch (error) {
-		console.error('REGISTER ERROR:', error);
+		console.error("REGISTER ERROR:", error);
 		throw error;
 	}
 }
