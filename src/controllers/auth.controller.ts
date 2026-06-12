@@ -3,10 +3,14 @@ import { loginSchema, registerSchema } from "../schemas/auth.schema";
 import { getMe, loginUser, registerUser } from "../services/auth.service";
 
 export async function register(req: Request, res: Response) {
-	const data = await registerSchema.parseAsync(req.body);
-	const { user, token } = await registerUser(data);
-	// Password is already stripped in the service — safe to send directly
-	res.status(201).json({ user, token });
+	try {
+		const data = await registerSchema.parseAsync(req.body);
+		const { user, token } = await registerUser(data);
+		res.status(201).json({ user, token });
+	} catch (error) {
+		console.error('REGISTER ERROR:', error);
+		throw error;
+	}
 }
 
 export async function login(req: Request, res: Response) {
