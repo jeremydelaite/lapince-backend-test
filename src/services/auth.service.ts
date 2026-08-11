@@ -94,9 +94,24 @@ export async function registerUser(
 
 		// 6. DEMO OPERATIONS CONFIGURATION
 		const demoOperations = [
-			{ name: "Hôtel", amount: new Prisma.Decimal(180), payerIndex: 0, categoryId: 4 },
-			{ name: "Restaurant", amount: new Prisma.Decimal(90), payerIndex: 1, categoryId: 3 },
-			{ name: "Courses", amount: new Prisma.Decimal(45), payerIndex: 2, categoryId: 6 },
+			{
+				name: "Hôtel",
+				amount: new Prisma.Decimal(180),
+				payerIndex: 0,
+				categoryId: 4,
+			},
+			{
+				name: "Restaurant",
+				amount: new Prisma.Decimal(90),
+				payerIndex: 1,
+				categoryId: 3,
+			},
+			{
+				name: "Courses",
+				amount: new Prisma.Decimal(45),
+				payerIndex: 2,
+				categoryId: 6,
+			},
 		];
 
 		// 7. CREATE OPERATIONS + SPLITS

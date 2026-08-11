@@ -13,39 +13,53 @@ async function main() {
 	// CATEGORIES
 	// ============================================================
 
+	// Les identifiants sont explicites et NE DOIVENT PAS changer.
+	// auth.service.ts référence en dur les catégories 3, 4 et 6 pour construire
+	// le projet de démonstration créé à l'inscription :
+	//   3 = Restaurants   4 = Hébergement   6 = Courses
+	// Sans identifiants explicites, les upsert lancés en parallèle reçoivent
+	// leur id dans l'ordre où ils atteignent la base — donc de façon non
+	// déterministe. C'est ce qui a provoqué l'erreur P2003 en production.
 	const [divers, restaurants, hebergement, transport, courses, loisir] =
 		await Promise.all([
 			prisma.category.upsert({
 				where: { color: "#A9A9A9" },
 				update: {},
-				create: { name: "Divers", color: "#A9A9A9" },
+				create: { id: 1, name: "Divers", color: "#A9A9A9" },
 			}),
 			prisma.category.upsert({
 				where: { color: "#228B22" },
 				update: {},
-				create: { name: "Restaurants", color: "#228B22" },
+				create: { id: 3, name: "Restaurants", color: "#228B22" },
 			}),
 			prisma.category.upsert({
 				where: { color: "#1E90FF" },
 				update: {},
-				create: { name: "Hébergement", color: "#1E90FF" },
+				create: { id: 4, name: "Hébergement", color: "#1E90FF" },
 			}),
 			prisma.category.upsert({
 				where: { color: "#FF8C00" },
 				update: {},
-				create: { name: "Transport", color: "#FF8C00" },
+				create: { id: 2, name: "Transport", color: "#FF8C00" },
 			}),
 			prisma.category.upsert({
 				where: { color: "#6B8E23" },
 				update: {},
-				create: { name: "Courses", color: "#6B8E23" },
+				create: { id: 6, name: "Courses", color: "#6B8E23" },
 			}),
 			prisma.category.upsert({
 				where: { color: "#9370DB" },
 				update: {},
-				create: { name: "Loisir", color: "#9370DB" },
+				create: { id: 5, name: "Loisir", color: "#9370DB" },
 			}),
 		]);
+
+	// La colonne id est un SERIAL : insérer des identifiants explicites n'avance
+	// pas la séquence. On la recale pour qu'une insertion ultérieure n'entre pas
+	// en collision avec les identifiants ci-dessus.
+	await prisma.$executeRawUnsafe(
+		`SELECT setval(pg_get_serial_sequence('category', 'id'), (SELECT MAX(id) FROM category));`,
+	);
 
 	console.log("✅ 6 categories seeded");
 

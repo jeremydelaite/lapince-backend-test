@@ -35,7 +35,11 @@
 		"db:migrate": "docker exec lapince-api npx prisma migrate dev",
 		"db:seed": "docker exec lapince-api npx prisma db seed",
 		"db:reset": "docker exec lapince-api npx prisma migrate reset --force",
-		"db:generate": "docker exec lapince-api npx prisma generate"
+		"db:generate": "docker exec lapince-api npx prisma generate",
+		"db:seed:remote": "tsx prisma/seed.ts"
+	},
+	"prisma": {
+		"seed": "tsx prisma/seed.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.15",
