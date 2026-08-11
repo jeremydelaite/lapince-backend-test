@@ -54,12 +54,9 @@ async function main() {
 			}),
 		]);
 
-	// La colonne id est un SERIAL : insérer des identifiants explicites n'avance
-	// pas la séquence. On la recale pour qu'une insertion ultérieure n'entre pas
-	// en collision avec les identifiants ci-dessus.
-	await prisma.$executeRawUnsafe(
-		`SELECT setval(pg_get_serial_sequence('category', 'id'), (SELECT MAX(id) FROM category));`,
-	);
+	// Note : la colonne id est un SERIAL et la séquence n'est pas avancée par ces
+	// insertions explicites. Sans conséquence ici — aucune catégorie n'est créée à
+	// l'exécution, l'API n'expose pas d'endpoint de création.
 
 	console.log("✅ 6 categories seeded");
 
